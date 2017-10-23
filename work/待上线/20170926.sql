@@ -24,10 +24,10 @@ USE zntg_admin;
 #2.新增查看代理商品明细权限
 INSERT INTO `zntg_admin`.`adm_Power` (`ID`, `ParentID`, `PowerName`, `Url`, `Sort`, `Type`, `State`, `CreateTime`, `ModifyTime`, `Ext1`) VALUES ('1327', '1275', '代理商品查看', '/proxyManage/product/detail.htm', '0', '3', '1', '2017-09-25 17:38:58', NULL, NULL);
 
+USE zntg_jxweb;
+
 #3.店铺商品排序
 ALTER TABLE `zntg_jxweb`.`tg_Product` ADD COLUMN `sort_shop` INT(11) NULL  COMMENT '店铺商品排序，用于店铺首页商品显示顺序' AFTER `is_free_freight`;
 
-USE zntg_jxweb;
-
-# 4.历史商品倒计时间隔调整为10年
+#4.历史商品倒计时间隔调整为10年
 update tg_Product t set t.endTime = DATE_ADD(t.startTime, INTERVAL 10 YEAR) where t.startTime is not null;
