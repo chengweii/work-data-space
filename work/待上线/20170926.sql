@@ -1,7 +1,7 @@
 USE zntg_admin;
 
 #1.代理商列表导出权限
-INSERT INTO `zntg_admin`.`adm_Power` (`ID`, `ParentID`, `PowerName`, `Url`, `Sort`, `Type`, `State`, `CreateTime`, `ModifyTime`, `Ext1`) VALUES ('13013', '1278', '代理商导出', '/proxyManage/proxy/export.htm', '0', '3', '1', '2017-09-22 09:45:23', NULL, NULL);
+INSERT INTO `zntg_admin`.`adm_Power` (`ID`, `ParentID`, `PowerName`, `Url`, `Sort`, `Type`, `State`, `CreateTime`, `ModifyTime`, `Ext1`) VALUES ('1326', '1278', '代理商导出', '/proxyManage/proxy/export.htm', '0', '3', '1', '2017-09-22 09:45:23', NULL, NULL);
 
 USE zntg_jxweb;
 
@@ -22,7 +22,7 @@ ADD COLUMN `cycle_give`  bit(1) DEFAULT b'0' COMMENT '是否循环赠送（0:否
 USE zntg_admin;
 
 #2.新增查看代理商品明细权限
-INSERT INTO `zntg_admin`.`adm_Power` (`ID`, `ParentID`, `PowerName`, `Url`, `Sort`, `Type`, `State`, `CreateTime`, `ModifyTime`, `Ext1`) VALUES ('13014', '1275', '代理商品查看', '/proxyManage/product/detail.htm', '0', '3', '1', '2017-09-25 17:38:58', NULL, NULL);
+INSERT INTO `zntg_admin`.`adm_Power` (`ID`, `ParentID`, `PowerName`, `Url`, `Sort`, `Type`, `State`, `CreateTime`, `ModifyTime`, `Ext1`) VALUES ('1327', '1275', '代理商品查看', '/proxyManage/product/detail.htm', '0', '3', '1', '2017-09-25 17:38:58', NULL, NULL);
 
 #3.店铺商品排序
 ALTER TABLE `zntg_jxweb`.`tg_Product` ADD COLUMN `sort_shop` INT(11) NULL  COMMENT '店铺商品排序，用于店铺首页商品显示顺序' AFTER `is_free_freight`;
