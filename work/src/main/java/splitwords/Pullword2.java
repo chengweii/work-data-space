@@ -42,7 +42,7 @@ public class Pullword2 {
 		 */
 		// getNumberStr("45°汾酒集团百家老根玻璃烤花瓶特制十年礼盒整箱装225mL*2*6");
 
-		List<String> content = getFileContent("src/words.txt");
+		List<String> content = getFileContent("src/main/resources/words.txt");
 		begin(content);
 
 	}
