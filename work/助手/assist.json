@@ -134,6 +134,12 @@
             "icon":"",
             "icon-text":"TOOL",
             "url":"http://web.chacuo.net/"
+        },
+        {
+            "title":"图灵机器人",
+            "icon":"",
+            "icon-text":"Robot",
+            "url":"http://www.tuling123.com/"
         }
     ]
 }
