@@ -128,6 +128,10 @@
             "title":"UML作图",
             "icon":"uml.png",
             "url":"https://www.processon.com/"
+        },{
+            "title":"百度翻译",
+            "icon":"translate.png",
+            "url":"http://fanyi.baidu.com/translate?lang=auto2zh#auto/zh/"
         },
         {
             "title":"在线开发工具",
