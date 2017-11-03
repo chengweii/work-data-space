@@ -132,6 +132,10 @@
             "title":"百度翻译",
             "icon":"translate.png",
             "url":"http://fanyi.baidu.com/translate?lang=auto2zh#auto/zh/"
+        },{
+            "title":"百度云盘",
+            "icon":"baiduyun.png",
+            "url":"https://pan.baidu.com"
         },
         {
             "title":"在线开发工具",
