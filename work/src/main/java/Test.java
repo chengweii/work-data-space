@@ -1,3 +1,4 @@
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
@@ -10,8 +11,10 @@ public class Test {
 		Calendar c = Calendar.getInstance();
 		c.setTime(new Date());
 		c.add(1, 10);
+		Map<String,>
+		BigDecimal bigDecimal=new BigDecimal(String.valueOf(couponInfo.get("couponPrice")))
 		System.out.println("");
-		testTask();
+		//testTask();
 	}
 
 	public static void testTask() {
