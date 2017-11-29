@@ -11,8 +11,6 @@ public class Test {
 		Calendar c = Calendar.getInstance();
 		c.setTime(new Date());
 		c.add(1, 10);
-		Map<String,>
-		BigDecimal bigDecimal=new BigDecimal(String.valueOf(couponInfo.get("couponPrice")))
 		System.out.println("");
 		//testTask();
 	}
