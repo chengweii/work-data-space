@@ -13,4 +13,4 @@ MODIFY COLUMN `sn_no`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NU
 USE jkd_order;
 # 3.添加折扣金额
 ALTER TABLE `ord_pay_coupon`
-ADD COLUMN `discount_price`  decimal(10,2) NULL DEFAULT 0.00 AFTER `shop_coupon_price`;
+ADD COLUMN `rebate_price`  decimal(10,2) NULL DEFAULT 0.00 AFTER `shop_coupon_price`;
