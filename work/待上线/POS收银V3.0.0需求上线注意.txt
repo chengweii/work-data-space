@@ -1,1 +1,4 @@
 1.微信公众号加解密消息需要更换jce策略文件：UnlimitedJCEPolicyJDK7.zip
+2.微信公众号配置更改为线上配置（JKDFacade-APP/pre.properties、prod.properties以及JKDFacade-MerchantsAPP/pre.properties、prod.properties）
+3.微信公众号会员卡配置优惠券、订单
+4.微信公众号接收服务器消息推送配置
