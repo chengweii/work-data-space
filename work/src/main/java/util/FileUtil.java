@@ -20,6 +20,15 @@ public class FileUtil {
 		out.close();
 	}
 
+	public static void writeFileContent(String content, String filePath, boolean append) throws IOException {
+		File file = new File(filePath);
+		if (!file.exists())
+			file.createNewFile();
+		FileOutputStream out = new FileOutputStream(file, append);
+		out.write(content.getBytes(CHARSET_NAME));
+		out.close();
+	}
+
 	public static String getFileContent(String filePath) throws IOException {
 		String line;
 		StringBuilder stringBuilder = new StringBuilder();
