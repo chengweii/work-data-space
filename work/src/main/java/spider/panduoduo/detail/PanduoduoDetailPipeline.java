@@ -1,7 +1,6 @@
-package spider.panduoduo;
+package spider.panduoduo.detail;
 
 import java.sql.Connection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,41 +15,35 @@ import com.google.common.base.Strings;
 import spider.HttpUtil;
 import util.DBHelper;
 
-@PipelineName("panduoduoPipeline")
-public class PanduoduoPipeline implements Pipeline<Panduoduo> {
-	private static Logger LOGGER = Logger.getLogger(PanduoduoPipeline.class);
+@PipelineName("panduoduoDetailPipeline")
+public class PanduoduoDetailPipeline implements Pipeline<PanduoduoDetail> {
+	private static Logger LOGGER = Logger.getLogger(PanduoduoDetailPipeline.class);
 
 	@Override
-	public void process(Panduoduo bean) {
+	public void process(PanduoduoDetail bean) {
 		try {
 			if (bean == null) {
 				LOGGER.info("抓取结果为空。");
 				return;
 			}
-			for (PanduoduoItem item : bean.getPanduoduoItems()) {
-				saveData(item);
-			}
 
 			HttpRequest request = bean.getRequest();
-			if (Strings.isNullOrEmpty(bean.getCurrPage()) || Strings.isNullOrEmpty(bean.getTotalPage())) {
-				LOGGER.info("抓取结果为空。");
-				Main.search();
-			} else {
-				int currentIndex = Integer
-						.parseInt(bean.getCurrPage().replace("第", "").replace("页", "").replaceAll("\\s", ""));
-				int nextIndex = currentIndex + 1;
-				int totalIndex = Integer
-						.parseInt(bean.getTotalPage().replace("共", "").replace("页", "").replaceAll("\\s", ""));
-				if (nextIndex <= totalIndex) {
-					String nextUrl = "";
-					String currUrl = request.getUrl();
-					nextUrl = currUrl.substring(0, currUrl.lastIndexOf("/") + 1) + nextIndex;
-					SchedulerContext.into(request.subRequest(nextUrl));
-					LOGGER.info("抓取下一页：" + nextUrl);
-				} else {
-					LOGGER.info("抓取完毕。");
-					Main.search();
-				}
+
+			checkInvaild(bean.getUrl(), request.getParameter("sourcenum"));
+
+			int currentIndex = Main.keywordIndex;
+			Main.keywordIndex++;
+			if (currentIndex < Main.items.size()) {
+				String sourcenum = Main.items.get(currentIndex).get("url").toString()
+						.replace("http://www.panduoduo.net/r/", "");
+				String nextUrl = Main.BASE_PATH + "/go/" + sourcenum;
+				Map<String, String> param = new HashMap<String, String>();
+				param.put("sourcenum", sourcenum);
+				request.setParameters(param);
+				request.clearHeader();
+				request.addHeader("User-Agent",
+						"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1979.0 Safari/537.36");
+				SchedulerContext.into(request.subRequest(nextUrl));
 			}
 		} catch (Exception e) {
 			LOGGER.error("抓取异常。", e);
@@ -62,29 +55,25 @@ public class PanduoduoPipeline implements Pipeline<Panduoduo> {
 		conn = DBHelper.getConn();
 	}
 
-	private void saveData(PanduoduoItem data) {
+	private void updateData(String sourcenum) {
 		try {
-			String sql = "INSERT INTO `test`.`panduoduo` (`title`,`url`, `file_size`, `public_date`) VALUES (?,?, ?, ?);";
-			int size = transformSize(data.getSize());
-			if (size > 80 && isVedio(data.getTitle()) && !checkInvaild(data.getUrl(), data.getTitle())) {
-				DBHelper.excuteUpdate(conn, sql, data.getTitle(), Main.BASE_PATH + data.getUrl(), size, new Date());
-			} else {
-				LOGGER.info("文件太小," + data.getTitle() + ",size:" + size);
-			}
-
+			String sql = "delete from `test`.`panduoduo` where url like '%" + sourcenum + "'";
+			DBHelper.excuteUpdate(conn, sql);
 		} catch (Exception e) {
-			LOGGER.error("抓取异常。" + data.getTitle(), e);
+			LOGGER.error("更新异常。" + sourcenum, e);
 		}
 	}
 
-	private boolean checkInvaild(String url, String title) {
+	private boolean checkInvaild(String url, String sourcenum) {
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.put("User-Agent",
 				"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1979.0 Safari/537.36");
-		String content = HttpUtil.get("http://106.14.95.104:8080/go/" + url.replace("/r/", ""), "", headers);
+		headers.put("Cookie", Main.COOKIE);
+		String content = HttpUtil.get(url, "", headers);
 		boolean invaild = content != null && content.contains("百度网盘-链接不存在");
 		if (invaild) {
-			LOGGER.info("文件失效," + title);
+			LOGGER.info("文件失效," + sourcenum);
+			updateData(sourcenum);
 		}
 		return invaild;
 	}
