@@ -38,7 +38,7 @@ public class PanduoduoPipeline implements Pipeline<Panduoduo> {
 				int nextIndex = currentIndex + 1;
 				int totalIndex = Integer
 						.parseInt(bean.getTotalPage().replace("共", "").replace("页", "").replaceAll("\\s", ""));
-				if (currentIndex <= totalIndex) {
+				if (nextIndex <= totalIndex) {
 					String nextUrl = "";
 					String currUrl = request.getUrl();
 					nextUrl = currUrl.substring(0, currUrl.lastIndexOf("/") + 1) + nextIndex;
@@ -62,7 +62,7 @@ public class PanduoduoPipeline implements Pipeline<Panduoduo> {
 		try {
 			String sql = "INSERT INTO `test`.`panduoduo` (`title`,`url`, `file_size`, `public_date`) VALUES (?,?, ?, ?);";
 			int size = transformSize(data.getSize());
-			if (size > 80) {
+			if (size > 80 && isVedio(data.getTitle())) {
 				DBHelper.excuteUpdate(conn, sql, data.getTitle(), Main.BASE_PATH + data.getUrl(), size, new Date());
 			} else {
 				LOGGER.info("文件太小," + data.getTitle() + ",size:" + size);
@@ -71,6 +71,12 @@ public class PanduoduoPipeline implements Pipeline<Panduoduo> {
 		} catch (Exception e) {
 			LOGGER.error("抓取异常。" + data.getTitle(), e);
 		}
+	}
+
+	private boolean isVedio(String title) {
+		String ltitle = title.toLowerCase();
+		return ltitle.contains(".mp4") || ltitle.contains(".mkv") || ltitle.contains(".rmvb")
+				|| ltitle.contains(".avi");
 	}
 
 	private String getDate(String publicDate) {
