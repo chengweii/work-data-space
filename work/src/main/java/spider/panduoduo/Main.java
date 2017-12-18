@@ -35,7 +35,7 @@ public class Main {
 	public static void search() {
 		int currentIndex = keywordIndex;
 		keywordIndex++;
-		if (keywordIndex < keywords.size()) {
+		if (currentIndex < keywords.size()) {
 			GeccoEngine.create().classpath("spider").start(BASE_PATH + "/s/name/" + keywords.get(currentIndex) + "/1")
 					.thread(1).loop(false).mobile(false).interval(2000).start();
 		}

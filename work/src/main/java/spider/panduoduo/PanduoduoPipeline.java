@@ -46,6 +46,7 @@ public class PanduoduoPipeline implements Pipeline<Panduoduo> {
 					LOGGER.info("抓取下一页：" + nextUrl);
 				} else {
 					LOGGER.info("抓取完毕。");
+					Main.search();
 				}
 			}
 		} catch (Exception e) {
