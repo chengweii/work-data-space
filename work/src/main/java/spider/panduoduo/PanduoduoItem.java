@@ -1,4 +1,4 @@
-package spider.htmlbean.panduoduo;
+package spider.panduoduo;
 
 import com.geccocrawler.gecco.annotation.Attr;
 import com.geccocrawler.gecco.annotation.Gecco;
@@ -18,6 +18,10 @@ public class PanduoduoItem implements HtmlBean {
 	@Attr(value = "title")
 	@HtmlField(cssPath = "h3>a")
 	private String title;
+
+	@Attr(value = "href")
+	@HtmlField(cssPath = "h3>a")
+	private String url;
 
 	@Text
 	@HtmlField(cssPath = "p>.size")
@@ -65,6 +69,14 @@ public class PanduoduoItem implements HtmlBean {
 
 	public void setSmall(String small) {
 		this.small = small;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }

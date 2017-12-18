@@ -1,4 +1,4 @@
-package spider.htmlbean.panduoduo;
+package spider.panduoduo;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import com.geccocrawler.gecco.annotation.Text;
 import com.geccocrawler.gecco.request.HttpRequest;
 import com.geccocrawler.gecco.spider.HtmlBean;
 
-@Gecco(matchUrl = "http://www.panduoduo.net/s/name/{keyword}/{pagenum}", pipelines = "panduoduoPipeline")
+@Gecco(matchUrl = Main.BASE_PATH + "/s/name/{keyword}/{pagenum}", pipelines = "panduoduoPipeline")
 public class Panduoduo implements HtmlBean {
 	private static final long serialVersionUID = 1L;
 

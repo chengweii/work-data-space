@@ -13,12 +13,14 @@ import java.util.List;
 import java.util.Map;
 
 public class DBHelper {
-	public static  String url = "jdbc:mysql://127.0.0.1/test";
-	public static  String driver = "com.mysql.jdbc.Driver";  
-    public static  String user = "root";  
-    public static  String password = "root";
+	public static String url = "jdbc:mysql://127.0.0.1/test?useUnicode=true&characterEncoding=utf8";
+	public static String driver = "com.mysql.jdbc.Driver";
+	public static String user = "root";
+	public static String password = "root";
+
 	/**
 	 * 根据字符串选择数据源
+	 * 
 	 * @param dataSource
 	 * @return
 	 */
@@ -33,7 +35,7 @@ public class DBHelper {
 		return conn;
 	}
 
-	public static int excuteUpdate(Connection conn, String sql, String[] params) {
+	public static int excuteUpdate(Connection conn, String sql, Object... params) {
 		int flag = 0;
 		if (conn == null)
 			return flag;
@@ -49,23 +51,22 @@ public class DBHelper {
 			flag = ps.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("----------------------");
-			System.out.println("执行SQL:"+sql);
+			System.out.println("执行SQL:" + sql);
 			if (params != null) {
-				String msg="[";
+				String msg = "[";
 				for (int i = 0; i < params.length; i++) {
-					msg+=params[i]+" ";
+					msg += params[i] + " ";
 				}
-				msg+="]";
-				System.out.println("参数:"+msg);
+				msg += "]";
+				System.out.println("参数:" + msg);
 			}
-			
-			System.out.println("错误信息："+e.getMessage());
+
+			System.out.println("错误信息：" + e.getMessage());
 		}
 		return flag;
 	}
-	
-	public static int excuteUpdateNoCatch(Connection conn, String sql,
-			String[] params) throws Exception {
+
+	public static int excuteUpdateNoCatch(Connection conn, String sql, Object... params) throws Exception {
 		int flag = 0;
 		if (conn == null)
 			return flag;
@@ -80,8 +81,8 @@ public class DBHelper {
 		flag = ps.executeUpdate();
 		return flag;
 	}
-	
-	public static void excuteCall(Connection conn, String sql, String[] params) {
+
+	public static void excuteCall(Connection conn, String sql, Object... params) {
 		CallableStatement cs;
 
 		try {
@@ -96,7 +97,7 @@ public class DBHelper {
 		}
 	}
 
-	public static ResultSet excuteQuery(Connection conn, String sql, String[] params) {
+	public static ResultSet excuteQuery(Connection conn, String sql, Object... params) {
 		ResultSet rs = null;
 		if (conn == null)
 			return rs;
@@ -115,7 +116,7 @@ public class DBHelper {
 		return rs;
 	}
 
-	public void update(Connection conn,String sql, String[] params) {
+	public void update(Connection conn, String sql, Object... params) {
 		try {
 			excuteUpdate(conn, sql, params);
 			conn.close();
@@ -123,24 +124,24 @@ public class DBHelper {
 			e.printStackTrace();
 		}
 	}
-	
-	public static List<Map<String,Object>> queryForList(String sql,String[] params){
+
+	public static List<Map<String, Object>> queryForList(String sql, Object... params) {
 		Connection conn = DBHelper.getConn();
 		ResultSet detailrs = DBHelper.excuteQuery(conn, sql, params);
 		List<Map<String, Object>> detaillist = DBHelper.rsToMapList(detailrs);
 		return detaillist;
 	}
-	
-	public static List<Map<String,Object>> rsToMapList(ResultSet rs){
-		List<Map<String,Object>> datalist=new ArrayList<Map<String,Object>>();
+
+	public static List<Map<String, Object>> rsToMapList(ResultSet rs) {
+		List<Map<String, Object>> datalist = new ArrayList<Map<String, Object>>();
 		try {
-			ResultSetMetaData md=rs.getMetaData();
-			Map<String,Object> rowdata;
-			int columnCount=md.getColumnCount();
+			ResultSetMetaData md = rs.getMetaData();
+			Map<String, Object> rowdata;
+			int columnCount = md.getColumnCount();
 			int i;
 			while (rs.next()) {
-				rowdata=new LinkedHashMap<String,Object>();
-				for(i=1;i<=columnCount;i++)
+				rowdata = new LinkedHashMap<String, Object>();
+				for (i = 1; i <= columnCount; i++)
 					rowdata.put(md.getColumnName(i), rs.getObject(i));
 				datalist.add(rowdata);
 			}
