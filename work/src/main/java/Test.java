@@ -8,12 +8,17 @@ public class Test {
 	public static Timer timer = new Timer();
 
 	public static void main(String[] args) {
-		Calendar c = Calendar.getInstance();
-		c.setTime(new Date());
-		c.add(1, 10);
-		System.out.println("");
+		Test t=new Test();
+		t.setEn_title("sdf");
+		System.out.println(t.en_title);
 		//testTask();
 	}
+	
+	private String en_title;
+	
+	 public void setEn_title(String en_title) {
+	        this.en_title = en_title == null ? null : en_title.trim();
+	    }
 
 	public static void testTask() {
 		timer.schedule(new TimerTask() {
