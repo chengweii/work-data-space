@@ -21,6 +21,8 @@ CREATE TABLE `tg_TokenPayBindingCard` (
 # 1.1 新增支付方式ID字段
 ALTER TABLE `sel_sell`
 ADD COLUMN `pay_way_id`  tinyint(4) NULL DEFAULT 0 COMMENT '支付方式id(手机银联：16，微信支付：24，手机支付宝：26,线下汇款：31)' AFTER `process_type`;
+ALTER TABLE `sel_sell`
+MODIFY COLUMN `pay_type`  tinyint(4) NOT NULL COMMENT '支付方式（0：支付宝支付；1：网银；2：线下汇款；3：微信支付；4：手机银联Token支付）' AFTER `zip_code`;
 
 USE jiukuaidao;
 # 2.修改汇款账号信息
