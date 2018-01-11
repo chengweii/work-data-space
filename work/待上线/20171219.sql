@@ -27,4 +27,7 @@ MODIFY COLUMN `pay_type`  tinyint(4) NOT NULL COMMENT '支付方式（0：支付
 USE jiukuaidao;
 # 2.修改汇款账号信息
 UPDATE `jiukuaidao`.`article` SET `content`='<style>p {margin: 0; font-size: 14px; line-height: 2;} body {margin:0;} .wrap{padding: 10px;}</style><h2 style=\" margin: 10px 0 0 0; text-align: center; font-size: 18px; font-weight:bold;\">如何汇款</h2><div class=\"wrap\">            <p>进货单提交成功！</p>        <p>为了保证您能够尽快收到货物，请于三日内通过以下方式汇款到酒快到账户：</p><p>公司名称：北京酒仙网新零售有限公司</p>    <p>开户行：中国银行股份有限公司北京中银大厦支行</p>    <p>银行账号：341566661646</p>    <p>公司地址：北京市北京经济技术开发区经海五路58号院10号楼3层</p></div>', `update_time`='2017-12-26 10:21:14' WHERE `id`='16';
+# 3.支付方式可用开关配置
+INSERT INTO `jiukuaidao`.`m_config` (`key`, `value`, `type`, `is_delete`, `name`) VALUES ('available_payway_list', '[{\"payWayId\":\"16\",\"payWayName\":\"手机银联\",\"payType\":\"2\",\"isEnabled\":\"0\"},{\"payWayId\":\"24\",\"payWayName\":\"微信支付\",\"payType\":\"2\",\"isEnabled\":\"1\"},{\"payWayId\":\"26\",\"payWayName\":\"手机支付宝\",\"payType\":\"2\",\"isEnabled\":\"1\"},{\"payWayId\":\"31\",\"payWayName\":\"线下汇款\",\"payType\":\"1\",\"isEnabled\":\"1\"}]', '0', '0', '可用支付方式列表');
+
 
