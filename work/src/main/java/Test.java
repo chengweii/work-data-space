@@ -1,6 +1,5 @@
-import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -8,9 +7,16 @@ public class Test {
 	public static Timer timer = new Timer();
 
 	public static void main(String[] args) {
-		Test t=new Test();
-		t.setEn_title("sdf");
-		System.out.println(t.en_title);
+		List<Integer> limitShopRangeProductIds = new ArrayList<Integer>();
+		limitShopRangeProductIds.add(1);
+		limitShopRangeProductIds.add(2);
+		limitShopRangeProductIds.add(3);
+		List<Integer> noLimitShopRangeProductIds = new ArrayList<Integer>();
+		noLimitShopRangeProductIds.add(3);
+		noLimitShopRangeProductIds.add(4);
+		noLimitShopRangeProductIds.add(5);
+		limitShopRangeProductIds.removeAll(noLimitShopRangeProductIds);
+		System.out.println(limitShopRangeProductIds);
 		//testTask();
 	}
 	
