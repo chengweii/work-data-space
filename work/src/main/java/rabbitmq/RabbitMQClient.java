@@ -1,5 +1,8 @@
 package rabbitmq;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
@@ -12,14 +15,11 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import util.FileUtil;
-import util.GsonUtil;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeoutException;
 
 public class RabbitMQClient {
     private static final String CHARSET = "utf-8";
@@ -38,7 +38,14 @@ public class RabbitMQClient {
     private static final String EXCHANGES_FILE_PATH = "E://exchanges.json";
     private static final String BINDINGS_FILE_PATH = "E://bindings.json";
 
-    public static void main(String[] args) throws IOException, TimeoutException {
+    public static Gson gson = null;
+
+    static {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gson = gsonBuilder.setPrettyPrinting().serializeNulls().create();
+    }
+
+    public static void main(String[] args) {
         //test();
         //拷贝MQ的配置信息从某个节点到另一个节点
         copyRabbitMQConfigs(HOST, PORT, AUTHORIZATION, HOST_NEW, PORT_NEW, AUTHORIZATION_NEW);
@@ -102,8 +109,8 @@ public class RabbitMQClient {
     public static void createQueuesFromJson(String host, int port, String authorization) {
         String queuesJson = null;
         try {
-            queuesJson = FileUtil.getFileContent(QUEUES_FILE_PATH);
-            List<RabbitMQQueue> rabbitMQQueues = GsonUtil.getEntityFromJson(queuesJson, new TypeToken<List<RabbitMQQueue>>() {
+            queuesJson = getFileContent(QUEUES_FILE_PATH);
+            List<RabbitMQQueue> rabbitMQQueues = getEntityFromJson(queuesJson, new TypeToken<List<RabbitMQQueue>>() {
             });
             for (RabbitMQQueue entity : rabbitMQQueues) {
                 createQueue(host, port, authorization, entity);
@@ -116,8 +123,8 @@ public class RabbitMQClient {
     public static void createExchangesFromJson(String host, int port, String authorization) {
         String exchangesJson = null;
         try {
-            exchangesJson = FileUtil.getFileContent(EXCHANGES_FILE_PATH);
-            List<RabbitMQExchange> rabbitMQExchanges = GsonUtil.getEntityFromJson(exchangesJson, new TypeToken<List<RabbitMQExchange>>() {
+            exchangesJson = getFileContent(EXCHANGES_FILE_PATH);
+            List<RabbitMQExchange> rabbitMQExchanges = getEntityFromJson(exchangesJson, new TypeToken<List<RabbitMQExchange>>() {
             });
             for (RabbitMQExchange entity : rabbitMQExchanges) {
                 createExchange(host, port, authorization, entity);
@@ -130,8 +137,8 @@ public class RabbitMQClient {
     public static void createBindingsFromJson(String host, int port, String authorization) {
         String bindingsJson = null;
         try {
-            bindingsJson = FileUtil.getFileContent(BINDINGS_FILE_PATH);
-            List<RabbitMQBinding> rabbitMQBindings = GsonUtil.getEntityFromJson(bindingsJson, new TypeToken<List<RabbitMQBinding>>() {
+            bindingsJson = getFileContent(BINDINGS_FILE_PATH);
+            List<RabbitMQBinding> rabbitMQBindings = getEntityFromJson(bindingsJson, new TypeToken<List<RabbitMQBinding>>() {
             });
             for (RabbitMQBinding entity : rabbitMQBindings) {
                 if (StringUtils.isNotEmpty(entity.source)) {
@@ -147,8 +154,8 @@ public class RabbitMQClient {
         List<RabbitMQQueue> rabbitMQQueues = null;
         try {
             String result = httpGetRaw("/api/queues", host, port, authorization);
-            FileUtil.writeFileContent(result, QUEUES_FILE_PATH);
-            rabbitMQQueues = GsonUtil.getEntityFromJson(result, new TypeToken<List<RabbitMQQueue>>() {
+            writeFileContent(result, QUEUES_FILE_PATH);
+            rabbitMQQueues = getEntityFromJson(result, new TypeToken<List<RabbitMQQueue>>() {
             });
         } catch (Exception e) {
             e.printStackTrace();
@@ -161,8 +168,8 @@ public class RabbitMQClient {
         List<RabbitMQExchange> rabbitExchanges = null;
         try {
             String result = httpGetRaw("/api/exchanges", host, port, authorization);
-            FileUtil.writeFileContent(result, EXCHANGES_FILE_PATH);
-            rabbitExchanges = GsonUtil.getEntityFromJson(result, new TypeToken<List<RabbitMQExchange>>() {
+            writeFileContent(result, EXCHANGES_FILE_PATH);
+            rabbitExchanges = getEntityFromJson(result, new TypeToken<List<RabbitMQExchange>>() {
             });
         } catch (Exception e) {
             e.printStackTrace();
@@ -175,8 +182,8 @@ public class RabbitMQClient {
         List<RabbitMQBinding> rabbitMQBindings = null;
         try {
             String result = httpGetRaw("/api/bindings", host, port, authorization);
-            FileUtil.writeFileContent(result, BINDINGS_FILE_PATH);
-            rabbitMQBindings = GsonUtil.getEntityFromJson(result, new TypeToken<List<RabbitMQBinding>>() {
+            writeFileContent(result, BINDINGS_FILE_PATH);
+            rabbitMQBindings = getEntityFromJson(result, new TypeToken<List<RabbitMQBinding>>() {
             });
         } catch (Exception e) {
             e.printStackTrace();
@@ -186,19 +193,19 @@ public class RabbitMQClient {
     }
 
     public static void createExchange(String host, int port, String authorization, RabbitMQExchange exchange) {
-        String requestJson = GsonUtil.toJson(exchange);
+        String requestJson = toJson(exchange);
         String url = "/api/exchanges/" + exchange.vhost + "/" + exchange.name;
         httpPutRaw(url, host, port, authorization, requestJson);
     }
 
     public static void createQueue(String host, int port, String authorization, RabbitMQQueue queue) {
-        String requestJson = GsonUtil.toJson(queue);
+        String requestJson = toJson(queue);
         String url = "/api/queues/" + queue.vhost + "/" + queue.name;
         httpPutRaw(url, host, port, authorization, requestJson);
     }
 
     public static void createBinding(String host, int port, String authorization, RabbitMQBinding binding) {
-        String requestJson = GsonUtil.toJson(binding);
+        String requestJson = toJson(binding);
         String url = "/api/bindings/" + binding.vhost + "/e/" + binding.source + "/q/" + binding.destination;
         httpPostRaw(url, host, port, authorization, requestJson);
     }
@@ -308,6 +315,44 @@ public class RabbitMQClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void writeFileContent(String content, String filePath) throws IOException {
+        File file = new File(filePath);
+        if (!file.exists())
+            file.createNewFile();
+        FileOutputStream out = new FileOutputStream(file, false);
+        out.write(content.getBytes(CHARSET));
+        out.close();
+    }
+
+    public static String getFileContent(String filePath) throws IOException {
+        String line;
+        StringBuilder stringBuilder = new StringBuilder();
+        InputStreamReader streamReader = new InputStreamReader(new FileInputStream(new File(filePath)), CHARSET);
+        BufferedReader reader = new BufferedReader(streamReader);
+        while ((line = reader.readLine()) != null) {
+            stringBuilder.append(line);
+        }
+        reader.close();
+        return stringBuilder.toString();
+    }
+
+    public static <T> T getEntityFromJson(String json, TypeToken<?> typeToken) {
+        if (StringUtils.isEmpty(json))
+            return null;
+
+        T data = null;
+        try {
+            data = gson.fromJson(json, typeToken.getType());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public static String toJson(Object src) throws JsonSyntaxException {
+        return gson.toJson(src);
     }
 
     public static class RabbitMQQueue {
