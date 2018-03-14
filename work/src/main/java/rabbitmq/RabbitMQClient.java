@@ -39,7 +39,8 @@ public class RabbitMQClient {
     private static final String BINDINGS_FILE_PATH = "E://bindings.json";
 
     public static void main(String[] args) throws IOException, TimeoutException {
-        test();
+        //test();
+        //拷贝MQ的配置信息从某个节点到另一个节点
         copyRabbitMQConfigs(HOST, PORT, AUTHORIZATION, HOST_NEW, PORT_NEW, AUTHORIZATION_NEW);
     }
 
