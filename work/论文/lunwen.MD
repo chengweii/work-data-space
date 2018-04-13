@@ -15,9 +15,9 @@ e-commerce;mobile internet;distributed
 
 # 引言
 ## 选题背景
-在2010年前，电商市场停留在PC端；2012 年开始，微信的诞生以及智能手机普及率快速提升使得市场开始逐渐由 PC 端转向移动端。
+在2010年前，电商业务主要在PC端；2012 年开始，微信的诞生以及智能手机普及率快速提升使得市场开始逐渐由 PC 端转向移动端。
 从互联网零售三巨头天猫、京东、苏宁的数据来看，三者移动端占比均由2013年的不到10%快速上升至 2015年 的近50%。根据大众的消费习惯趋势判断，未来这一占比仍将继续提升。
-在电子商务平台的移动端占比和网络购物占比的双重提升下，互联网零售规模将继续保持高增长，由于整个社会消费品零售增速在持续下行，未来互联网零售将抢占其他传统零售的部分市场份额，这也契合了国家倡导的由传统经济向新兴经济转型的方向。
+在电子商务平台的移动端比重及销售互联网化比重都有所提升的趋势下，互联网零售的规模将会持续保持高速增长，由于整个社会消费品零售增速在持续下行，未来互联网零售将抢占其他传统零售的部分市场份额，这也契合了国家倡导的由传统经济向新兴经济转型的方向。
 
 ## 选题目的
 随着时间推移，未来主流的零售业态将会逐渐向互联网零售倾斜。
@@ -41,7 +41,7 @@ Web服务器：Apache Tomcat 6.0
 
 ### 开发技术
 本系统的开发，客户端方面，采用微信小程序技术的方式实现，这样不但简化了开发，同时借助微信跨平台通用的优势满足了系统支持多渠道的需求。微信小程序具体使用的技术主要有Html、JavaScript、Css。
-服务端方面，针对互联网系统安全、可靠、灵活、敏捷、扩展性强和不间断运行的特性，采用基于分布式服务系统架构的设计，这样可以以最低的成本、更灵活的方式，满足企业用户需求。
+服务端方面，针对互联网系统安全、可靠、灵活、敏捷、扩展性强和不间断运行的特性，采用基于分布式服务系统架构的设计，这样可以以更加低廉的成本、更加灵活的方式来更好的满足企业的业务需求。
 分布式服务系统架构具体使用到的技术主要有Velocity、Spring、Spring MVC、Mybatis、Dubbo。
 
 #### 微信小程序
@@ -162,7 +162,6 @@ Web服务器：Apache Tomcat 6.0
 ![系统总体业务架构](/图片/系统总体业务架构.png)
 
 ### 系统功能设计
-
 #### 销售系统
 ##### 会员登录
 用户打开微信小程序，通过微信授权登录方式自动完成用户注册、登录，系统记录用户opendid、用户名（昵称）。
@@ -192,7 +191,8 @@ Web服务器：Apache Tomcat 6.0
 管理员可通过系统查询、修改、启用禁用用户（会员）。
 
 ### 数据库设计
-
+系统采用Mysql数据库，新建“B2C_app”的数据库，并建立相关的业务模型表，详细的设计参见以下模型图：
+![数据库设计模型](/图片/数据库设计.png)
 ### 用户界面设计
 #### 销售系统
 
@@ -200,7 +200,103 @@ Web服务器：Apache Tomcat 6.0
 
 ## 系统详细设计
 ### 框架搭建
-
+首先通过IDE创建Maven项目，引入依赖相关的jar包:Spring、Spring MVC、Velocity、Mybatis、Dubbo，pom详情概要如下：
+```
+<dependencies>
+    <!-- Service相关 -->
+    <dependency>
+        <groupId>com.b2capp</groupId>
+        <artifactId>service-sdk</artifactId>
+        <version>0.0.1-RELEASE</version>
+    </dependency>
+    <!-- Spring FrameWork -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webmvc</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-test</artifactId>
+    </dependency>
+    <!-- velocity -->
+    <dependency>
+        <groupId>org.apache.velocity</groupId>
+        <artifactId>velocity</artifactId>
+        <version>1.7</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.velocity</groupId>
+        <artifactId>velocity-tools</artifactId>
+        <version>2.0</version>
+    </dependency>
+	<!-- Mybatis相关 -->
+    <dependency>
+        <groupId>org.mybatis</groupId>
+        <artifactId>mybatis</artifactId>
+        <version>3.2.2</version>
+    </dependency>
+    <dependency>
+        <groupId>org.mybatis</groupId>
+        <artifactId>mybatis-spring</artifactId>
+        <version>1.2.0</version>
+    </dependency>
+    <dependency>
+        <groupId>org.mybatis.generator</groupId>
+        <artifactId>mybatis-generator-core</artifactId>
+        <version>1.3.2</version>
+    </dependency>
+    <!-- Dubbo -->
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>dubbo</artifactId>
+        <exclusions>
+            <exclusion>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+    <!-- 数据库连接池 -->
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>druid</artifactId>
+        <version>0.2.9</version>
+    </dependency>
+    <!-- Redis相关 -->
+    <dependency>
+        <groupId>org.springframework.data</groupId>
+        <artifactId>spring-data-redis</artifactId>
+        <version>1.1.0.M1</version>
+    </dependency>
+    <dependency>
+        <groupId>redis.clients</groupId>
+        <artifactId>jedis</artifactId>
+        <version>2.1.0</version>
+    </dependency> 
+</dependencies>
+```
+然后搭建项目工程目录：controller、util、entity，Service引用Dubbo服务，Serivce项目工程目录：service、dao、util。Dubbo配置如下：
+```
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	<dubbo:application name="JKDFacade-APP" />
+	<dubbo:protocol name="dubbo" port="-1" />
+	<dubbo:registry address="zookeeper://zk1.b2capp.com:2181" />
+	<!-- refenrence -->
+	<dubbo:reference id="cacheService" interface="com.jiuxian.service.cache.CacheService" group="prod" />
+	<dubbo:reference id="sessionService" interface="com.jiuxian.service.session.SessionService" group="prod" />
+	<dubbo:reference id="userService" interface="com.jiuxian.service.user.UserService" group="prod" />
+	...
+</beans>
+```
+项目搭建完成后，通过Maven进行编译部署运行。
 ### 功能详细设计
 #### 销售系统
 ##### 会员登录
