@@ -2,36 +2,32 @@
 
 # 中文摘要
 随着网络购物愈发盛行的趋势以及移动智能手机的普及，零售企业迎来了新零售时代。线上与线下销售的结合将为零售企业带来更多的营业流量，同时也为用户带来更好的购物体验服务。
-移动互联网商城系统可以帮助中小型零售企业快速完成线上业务布局，更好的迎接新零售时代。本系统通过微信小程序、基于J2EE的分布式系统服务、Mysql数据库等技术实现。
+本论文主要阐述了通过微信小程序、基于J2EE的分布式系统服务、Mysql数据库等技术实现移动互联网商城系统。
 系统由前台销售系统和后台管理系统两个子系统组成。其中前台销售系统主要实现了如下功能：会员登录、商品搜索、购物车、订单管理、收货信息管理；后台管理系统主要实现了如下功能：用户管理、订单管理、商品管理、商品类别管理。
+本系统可以帮助中小型零售企业快速完成线上业务布局，更好地迎接新零售时代的到来。
 ## 关键词
 电子商务；移动互联网；分布式
 
 # 外文摘要
 With the growing popularity of online shopping and the popularity of mobile smart phones, retail businesses have ushered in the new retail era. The combination of online and offline sales will bring more business volume to retail businesses, and also bring better shopping experience services to users.
-The mobile Internet shopping mall system can help small and medium-sized retail businesses quickly complete the layout of online business and better meet the new retail era. The system is implemented through WeChat small program, distributed system service based on J2EE, Mysql database and so on.
+This paper mainly expounds the implementation of mobile Internet Mall system by WeChat small program, distributed system service based on J2EE and Mysql database.
 The system is composed of two subsystems, the front sales system and the background management system. The front desk sales system mainly realizes the following functions: member login, commodity search, shopping cart, order management, and collecting information management. The background management system mainly realizes the following functions: user management, order management, commodity management, commodity category management.
+This system can help small and medium-sized retail enterprises to quickly complete the layout of online business and better meet the coming of new retail era.
 ## 关键词
 e-commerce;mobile internet;distributed
 
 # 目录
 
 # 引言
-## 选题背景
 在2010年前，电商业务大部分在PC端；2012 年开始，微信的诞生以及智能手机普及率快速提升使得市场开始逐渐由 PC 端转向移动端。
 从互联网零售三巨头天猫、京东、苏宁的数据来看，其中移动端业务占比均由2013年的不足10%飞速提升到2015年的近50%。根据大众的消费习惯趋势判断，未来这一占比仍将继续提升。
 在电商业务逐渐由PC端转向移动端以及网络购物越来越流行的趋势下，互联网零售的规模将会持续保持高速增长，同时未来互联网零售将会抢占其他传统零售的部分市场份额，这也契合了国家倡导的由传统经济向新兴经济转型的方向。
-
-## 选题目的
 随着时间推移，未来主流的零售业态将会逐渐向互联网零售倾斜。
 目前国内很多中小型零售企业的销售模式仍以实体店销售为主，但这种模式往往会在一定程度上受到地理位置、店铺租金、人力成本等外界因素的影响。
-尽管有部分零售企业也通过PC端网站实现了销售的互联网化，但大部分维护成本过高，并且未覆盖移动互联网销售渠道。
+尽管有部分零售企业也通过PC端网站实现了销售的互联网化，但大部分未覆盖移动互联网销售渠道。
 随着网络购物越来越流行，未来的零售模式将会朝着线上线下销售结合的方向发展。
 零售企业要实现快速、低成本地布局线上业务，完成业务扩张，开发一套支持多渠道的移动互联网零售行业的商城系统就十分必要。
-
-## 选题意义
-移动互联网商城系统可以在提升用户体验、降低开发成本、减少运营成本、支持业务功能等方面最大程度地满足中小型零售企业实现移动互联网化销售的需求，协助中小型零售企业快速完成互联网新零售的战略布局。
-对于推动零售行业由传统经济模式向新兴经济模式快速转型有着一定的意义。
+移动互联网商城系统可以在提升用户体验、降低开发成本、支持业务功能等方面满足中小型零售企业实现移动互联网化销售的需求，协助中小型零售企业快速完成互联网新零售的战略布局。
 
 ## 系统开发环境及技术介绍
 ### 开发环境
@@ -461,12 +457,7 @@ Web服务器使用Apache Tomcat，Apache Tomcat是一个轻量级Web应用服务
 点击禁用按钮，确认用户状态是否变为已禁用，用户是否无法操作系统，点击启用按钮，确认用户状态是否变为已启用，用户是否可以正常访问系统。
 点击修改按钮，修改用户信息后保存，查看是否保存成功，修改时确认是否可以对用户除状态外的信息进行修改。
 #### 非功能性测试
-##### 性能要求
-系统服务的运行时间要求是7*24小时。系统设计承载业务量根据零售企业的销售量、访问量可动态扩容机器以保证系统正常运行。
-##### 安全要求
-系统操作统一记录操作日志，便于系统异常时回溯问题辅助问题解决。服务访问均采用请求报文签名验证的方式，保障数据安全。
-##### 监控要求
-系统部署建议部署到阿里云服务器，减少运营成本、基于运营商提供的完善服务进行监控。
+关于系统的非功能性测试主要考虑性能、安全两方面：性能方面通过压力测试系统承载业务量峰值，是否可以支撑中小型企业的销售能力。安全方面通过第三方安全平台测试系统是否存在安全漏洞。
 
 ## 总结
 通过这次毕业设计，我掌握了分布式系统开发相关的技术。了解了电商业务的理论以及系统开发的知识。
@@ -485,3 +476,6 @@ Web服务器使用Apache Tomcat，Apache Tomcat是一个轻量级Web应用服务
 [1] 江博.计算机技术在电子商务中的应用研究[J].河南科技,2017:1-2.  
 [2] 张洁,赵英,余红.B2C电子商务网站用户体验评价研究[J].情报科学,2013,3(12)：84-89.  
 [3] 刘霞,王海宾.基于O2O的电子商务运营模式研究———以地方企业为例[J].中小企业管理与科技(中旬刊),2015,(04):248-249.  
+[4] 何静,谭新民.基于J2EE的网上购物系统的设计[J].山西电子技术.2008(1):66-68.  
+[5] 衡友跃.基于MVC模式的网上购物系统应用研究[J].淮北职业技术学院学报.2008,7(1):77-79.  
+[6] 王晓路,卢建军,马莉.基于JAVA的连接池优化Web数据库连接[J].西安科技大学学报.2005.
