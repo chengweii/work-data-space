@@ -18,6 +18,9 @@ public class Test {
 		limitShopRangeProductIds.removeAll(noLimitShopRangeProductIds);
 		System.out.println(limitShopRangeProductIds);
 		//testTask();
+		Integer a= 256;
+		Integer b = 256;
+		System.out.println(a==b);
 	}
 	
 	private String en_title;
