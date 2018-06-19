@@ -1,11 +1,10 @@
 package redis;
+import redis.clients.jedis.Jedis;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-
-import redis.clients.jedis.Jedis;
 
 public class JdeisTest {
     private Jedis jedis; 
@@ -13,14 +12,20 @@ public class JdeisTest {
 	public static void main(String[] args) {
 		JdeisTest test=new JdeisTest();
 		test.setup();
-		test.testString();
+		//test.testString();
+        test.testeval();
 	}
     
     public void setup() {
         //连接redis服务器，192.168.0.100:6379
-        jedis = new Jedis("192.168.52.128", 6379);
+        jedis = new Jedis("127.0.0.1", 6379);
         //权限认证
-        jedis.auth("admin");  
+        //jedis.auth("admin");
+    }
+
+    public void testeval(){
+        jedis.eval("return redis.call('set','first','hell word !!!')");
+        System.out.println(jedis.get("first"));
     }
     
     /**
@@ -116,14 +121,14 @@ public class JdeisTest {
     public void test() throws InterruptedException {  
         //jedis 排序  
         //注意，此处的rpush和lpush是List的操作。是一个双向链表（但从表现来看的）  
-        jedis.del("a");//先清除数据，再加入数据进行测试  
+        jedis.del("a");//先清除数据，再加入数据进行测试
         jedis.rpush("a", "1");  
         jedis.lpush("a","6");  
         jedis.lpush("a","3");  
         jedis.lpush("a","9");  
         System.out.println(jedis.lrange("a",0,-1));// [9, 3, 6, 1]  
         System.out.println(jedis.sort("a")); //[1, 3, 6, 9]  //输入排序后结果  
-        System.out.println(jedis.lrange("a",0,-1));  
+        System.out.println(jedis.lrange("a",0,-1));
     }  
     
 }
