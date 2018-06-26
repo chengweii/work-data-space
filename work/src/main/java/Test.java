@@ -20,7 +20,7 @@ public class Test {
 		//testTask();
 		Integer a= 256;
 		Integer b = 256;
-		System.out.println(a==b);
+		System.out.println(new Long(4234234453453645645L));
 	}
 	
 	private String en_title;
