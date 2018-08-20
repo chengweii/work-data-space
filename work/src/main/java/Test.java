@@ -1,8 +1,6 @@
 import java.util.*;
 
 public class Test {
-	public static Timer timer = new Timer();
-
 	public static void main(String[] args) {
 		List<Integer> limitShopRangeProductIds = new ArrayList<Integer>();
 		limitShopRangeProductIds.add(1);
@@ -23,26 +21,6 @@ public class Test {
 			System.out.println("http://mp3-2.ting89.com:9090/2017/35/%E8%AF%A1%E7%A5%9E%E5%86%A2/"+i+".mp3");
 		}
 		Map<String,String> map = new HashMap<>();
-		System.out.println(map.size());
-	}
-	
-	private String en_title;
-	
-	 public void setEn_title(String en_title) {
-	        this.en_title = en_title == null ? null : en_title.trim();
-	    }
-
-	public static void testTask() {
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				try {
-					long sleeptime = (long) (Math.random() * 5000);
-					Thread.sleep(sleeptime);
-					System.out.println(sleeptime);
-				} catch (Exception e) {
-				}
-			}
-		}, 5000, 1000);
+		System.out.println(Byte.valueOf("1")==0);
 	}
 }
