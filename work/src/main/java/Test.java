@@ -1,26 +1,23 @@
+import util.MD5Util;
+
 import java.util.*;
 
 public class Test {
 	public static void main(String[] args) {
-		List<Integer> limitShopRangeProductIds = new ArrayList<Integer>();
-		limitShopRangeProductIds.add(1);
-		limitShopRangeProductIds.add(2);
-		limitShopRangeProductIds.add(3);
-		List<Integer> noLimitShopRangeProductIds = new ArrayList<Integer>();
-		noLimitShopRangeProductIds.add(3);
-		noLimitShopRangeProductIds.add(4);
-		noLimitShopRangeProductIds.add(5);
-		limitShopRangeProductIds.removeAll(noLimitShopRangeProductIds);
-		System.out.println(limitShopRangeProductIds);
-		//testTask();
-		Integer a= 256;
-		Integer b = 256;
-		System.out.println(7&3);
-		System.out.println(new Long(4234234453453645645L));
-		for(int i=430;i<800;i++){
-			System.out.println("http://mp3-2.ting89.com:9090/2017/35/%E8%AF%A1%E7%A5%9E%E5%86%A2/"+i+".mp3");
-		}
-		Map<String,String> map = new HashMap<>();
-		System.out.println(Byte.valueOf("1")==0);
+		List<String> s = new ArrayList<>();
+		s.add("10081808240031");
+		s.add("10081808240032");
+		s.add("10081808240033");
+		s.add("10081808240034");
+		s.add("10081808240035");
+		s.add("10081808240036");
+		s.add("10081808241036");
+		s.add("10081808242036");
+		s.add("10081808243036");
+		s.add("10081808244038");
+		//e08c93301982160a7fbbb72b2088fd0e
+		//e700c39dccc2a7cca096eb5d0bdeab31
+
+		System.out.println("nihao#star#sha#star#oni".split("#star#").length);
 	}
 }

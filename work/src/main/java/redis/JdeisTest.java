@@ -12,11 +12,11 @@ public class JdeisTest {
     private Jedis jedis;
 
     public static void main(String[] args) {
-        //JdeisTest test = new JdeisTest();
-        //test.setup();
-        //test.testString();
+        JdeisTest test = new JdeisTest();
+        test.setup();
+        test.testString();
         //concurrentJedisPoolTest();
-        testShardedJedis();
+        //testShardedJedis();
     }
 
     public static void concurrentJedisPoolTest() {
@@ -169,6 +169,12 @@ public class JdeisTest {
         jedis.incr("age"); //进行加1操作
         System.out.println(jedis.get("name") + "-" + jedis.get("age") + "-" + jedis.get("qq"));
 
+        jedis.zincrby("jc1001",1,"menber1");
+        jedis.zincrby("jc1001",1,"menber2");
+        Set<Tuple> set = jedis.zrevrangeWithScores("jc1001",0,0);
+        System.out.println(set);
+        System.out.println(jedis.zscore("jc1001","menber1"));
+        System.out.println(jedis.zscore("jc1001","menber2"));
     }
 
     /**
