@@ -14,9 +14,8 @@ public class RedisRank {
 
     private static final long MAX_SUPPLY_END_TIME_MILLIS = 2208960000000L;//apply to 2040-01-01 00:00:00
     private static final long VALUE_BASE_FACTOR = 1000000000000L;
-    private static final String RANK_SAVE_SCRIPT = "local score = redis.call('zincrby',KEYS[1],ARGV[1],KEYS[2]);redis.call('zadd',KEYS[1]..'_with_time',score * " + VALUE_BASE_FACTOR + "+ARGV[2],KEYS[2]);return score;";
     private static final String TIME_KEY_SUFFIX = "_with_time";
-
+    private static final String RANK_SAVE_SCRIPT = "local score = redis.call('zincrby',KEYS[1],ARGV[2],ARGV[1]);redis.call('zadd',KEYS[1]..'" + TIME_KEY_SUFFIX + "',score * " + VALUE_BASE_FACTOR + "+ARGV[3],ARGV[1]);return score;";
 
     private static Long getLeftTime() {
         return MAX_SUPPLY_END_TIME_MILLIS - System.currentTimeMillis();
@@ -24,8 +23,8 @@ public class RedisRank {
 
     public Long incrByStep(String key, String memberKey, int step) {
         Object value = jedis.eval(RANK_SAVE_SCRIPT,
-                Lists.<String>newArrayList(key, memberKey),
-                Lists.<String>newArrayList(String.valueOf(step), String.valueOf(getLeftTime())));
+                Lists.<String>newArrayList(key),
+                Lists.<String>newArrayList(memberKey, String.valueOf(step), String.valueOf(getLeftTime())));
         if (value == null) {
             return 0L;
         }
