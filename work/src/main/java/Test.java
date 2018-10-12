@@ -5,8 +5,10 @@ import java.util.*;
 
 public class Test {
 	public static void main(String[] args) throws Exception {
-		String[] Cmd  = new String[]{"wscript", "E:\\alert.vbs"};
-		Process	process = Runtime.getRuntime().exec(Cmd);
-		process.waitFor();
+		System.out.println(random(1000L,10000L));
+	}
+
+	private static long random(long begin, long end) {
+		return (long) (begin + Math.random() * (end - begin + 1));
 	}
 }
