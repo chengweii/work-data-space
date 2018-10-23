@@ -6,5 +6,6 @@ package spi;
  * @description:
  */
 public interface SpiTestApi {
+    Integer getAppId();
     String hello(String content);
 }

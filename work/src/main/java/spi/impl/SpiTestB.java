@@ -9,6 +9,11 @@ import spi.SpiTestApi;
  */
 public class SpiTestB implements SpiTestApi {
     @Override
+    public Integer getAppId() {
+        return 1002;
+    }
+
+    @Override
     public String hello(String content) {
         return "SpiTestB";
     }
