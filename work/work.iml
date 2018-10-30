@@ -54,5 +54,6 @@
     <orderEntry type="library" name="Maven: com.microsoft.ews-java-api:ews-java-api:2.0" level="project" />
     <orderEntry type="library" name="Maven: joda-time:joda-time:2.8" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-all:4.0.33.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.8.6" level="project" />
   </component>
 </module>
