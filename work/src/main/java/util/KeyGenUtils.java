@@ -28,8 +28,6 @@ public class KeyGenUtils {
         String finalCacheKey = cacheKeys.toString();
         finalCacheKey = finalCacheKey.substring(0, finalCacheKey.length() - 1);
 
-        LOGGER.info("缓存KEY:{}", finalCacheKey);
-
         return finalCacheKey;
     }
 }
