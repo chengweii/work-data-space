@@ -55,5 +55,8 @@
     <orderEntry type="library" name="Maven: joda-time:joda-time:2.8" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-all:4.0.33.Final" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.8.6" level="project" />
+    <orderEntry type="library" name="Maven: com.qiniu:qiniu-java-sdk:7.2.18" level="project" />
+    <orderEntry type="library" name="Maven: com.squareup.okhttp3:okhttp:3.11.0" level="project" />
+    <orderEntry type="library" name="Maven: com.squareup.okio:okio:1.14.0" level="project" />
   </component>
 </module>
