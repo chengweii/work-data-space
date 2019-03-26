@@ -8,7 +8,7 @@ public class Test {
 	private final static List<Integer> VALID_PROMOTION_TYPE = Lists.newArrayList(1,2);
 
 	public static void main(String[] args) throws Exception {
-		System.out.println(Test.class.getName());
+		System.out.println("顶顶顶顶顶【士大夫士大夫】".replaceFirst("^【.*?】",""));
 	}
 
 	public static <T> T get(String json){
