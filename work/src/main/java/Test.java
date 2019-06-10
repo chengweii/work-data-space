@@ -17,7 +17,39 @@ public class Test {
 		//Demo d = get(dataJson);
 		//System.out.println(d);
 		Demo t = JSON.parseObject(JSON.toJSONString(new Object()),Demo.class);
-		System.out.println(t);
+		//System.out.println(t);
+		Map<String,String> a = new HashMap<>();
+		a.put("2","");
+		List<Long> ss= new ArrayList<>();
+		ss = JSON.parseObject("[22,33]",List.class);
+		System.out.println(ParamMap.newParamMap().puts("2",4).puts("4",7));
+	}
+
+	/**
+	 * 自定义参数Map
+	 *
+	 * @param <K>
+	 * @param <V>
+	 */
+	public static class ParamMap<K, V> extends HashMap<K, V> {
+		/**
+		 * @param <K>
+		 * @param <V>
+		 * @return
+		 */
+		public static <K, V> ParamMap<K, V> newParamMap() {
+			return new ParamMap<K, V>();
+		}
+
+		/**
+		 * @param key
+		 * @param value
+		 * @return
+		 */
+		public ParamMap<K, V> puts(K key, V value) {
+			this.put(key, value);
+			return this;
+		}
 	}
 
 	public static <T> T get(String json){
