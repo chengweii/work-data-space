@@ -1,28 +1,53 @@
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.parser.ParserConfig;
 import com.google.common.collect.Lists;
 import com.google.gson.reflect.TypeToken;
 import lombok.Data;
+import util.DateUtil;
 import util.GsonUtil;
 
+import java.lang.reflect.Method;
 import java.util.*;
 
 public class Test {
 	private final static List<Integer> VALID_PROMOTION_TYPE = Lists.newArrayList(1,2);
-
+static{
+	ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
+}
 	public static void main(String[] args) throws Exception {
-		// System.out.println("顶顶顶顶顶【士大夫士大夫】".replaceFirst("^【.*?】",""));
-		Demo demo = new Demo();
-		demo.name = "测试";
-		String dataJson = JSON.toJSONString(demo);
-		//Demo d = get(dataJson);
-		//System.out.println(d);
-		Demo t = JSON.parseObject(JSON.toJSONString(new Object()),Demo.class);
-		//System.out.println(t);
-		Map<String,String> a = new HashMap<>();
-		a.put("2","");
-		List<Long> ss= new ArrayList<>();
-		ss = JSON.parseObject("[22,33]",List.class);
-		System.out.println(ParamMap.newParamMap().puts("2",4).puts("4",7));
+		String json = "{\"@type\":\"Test$ResultWrapper\",\"expireTime\":60000,\"cacheKey\":\"sdfdddd\",\"result\":{\"@type\":\"AuctionInfo\",\"auctionRecordId\":31849500,\"auditState\":5B,\"bidder\":\"80581199-521402\",\"bidderNickName\":\"爱***夏\",\"cappedPrice\":1599.0D,\"cbjPrice\":1599.0D,\"created\":1563877067000,\"creater\":\"lixuejing3\",\"currentPrice\":506.0D,\"duringTime\":3000,\"endTime\":1564475533000,\"id\":115351592,\"lockedNum\":1,\"maxPrice\":600.0D,\"minPrice\":1.0D,\"modified\":1564475533000,\"offerTime\":1564475531000,\"productName\":\"【官翻95新】科沃斯扫地机器人扫拖一体家用智能 扫地拖地吸尘 定时预约 DH43（拖扫）\",\"productType\":3,\"shopBrief\":\"正品行货！售后无忧！品质经营！！！\",\"shopId\":661533,\"shopLogo\":\"/popshop/jfs/t4438/91/1649833268/13919/3258adfb/58e4a556N66252216.png\",\"shopName\":\"科沃斯拍拍优品家电专营店\",\"startPrice\":1.0D,\"startTime\":1564472533000,\"status\":3B,\"stockStorageType\":2,\"usedNo\":50316283023}}";
+
+		ResultWrapper<AuctionInfo> resultWrapper = JSON.parseObject(json,ResultWrapper.class);
+		Date dayEnd = new Date(DateUtil.getDateFormat("2019-07-19", DateUtil.DateFormatType.YYYY_MM_DD).getTime() - 1);
+		Method[] ms = Test.class.getMethods();
+		System.out.println(ms[0].getReturnType().equals(Test.class));
+	}
+
+	@FunctionalInterface
+	public interface DaoAction<R> {
+		/**
+		 * 执行缓存源数据查询动作
+		 *
+		 * @return 缓存源数据结果
+		 */
+		R execute();
+	}
+
+	/**
+	 * 缓存数据包装对象
+	 *
+	 * @param <R> 数据结果
+	 */
+	@Data
+	public static class ResultWrapper<R> {
+		private R result;
+		private long expireTime;
+		//private String cacheKey;
+	}
+
+	public static Test nihao(){
+		System.out.println(Thread.currentThread() .getStackTrace()[1].getMethodName());
+		return null;
 	}
 
 	/**
