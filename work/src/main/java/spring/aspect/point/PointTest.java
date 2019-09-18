@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class PointTest extends BasePointTest {
 
     public void save(String name, String value) {
-        this.<PointTest>getSelf().save2("22", "33");
+        self(this).save2("22", "33");
         System.out.println("测试中1");
         //return "";
     }
