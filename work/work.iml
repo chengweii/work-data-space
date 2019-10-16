@@ -61,5 +61,7 @@
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.16.18" level="project" />
     <orderEntry type="library" name="Maven: org.apache.pdfbox:pdfbox:2.0.12" level="project" />
     <orderEntry type="library" name="Maven: org.apache.pdfbox:fontbox:2.0.12" level="project" />
+    <orderEntry type="library" name="Maven: org.ansj:ansj_seg:5.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.nlpcn:nlp-lang:1.7.2" level="project" />
   </component>
 </module>
