@@ -34,9 +34,9 @@ public class OfferLimiter<T> {
         limiter.getQueue().put(offerElement);
         if (limiter.getRateLimiter().tryAcquire(1, 2, TimeUnit.SECONDS)) {
             try {
-                System.out.println(String.format("当前时间=%s 出价成功=%s", new Date(), ""));
                 OfferElement<T> result = limiter.getQueue().take();
                 result.getOfferAction().execute(result.getParam());
+                System.out.println(String.format("当前时间=%s 出价成功=%s", new Date(), result.getParam()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -82,11 +82,11 @@ public class OfferLimiter<T> {
         @Getter
         private OfferAction<T> offerAction;
 
-        OfferElement(Long id,int priority, T param,OfferAction<T> offerAction) {
+        OfferElement(Long id, int priority, T param, OfferAction<T> offerAction) {
             this.id = id;
             this.priority = priority;
             this.offerAction = offerAction;
-            this.param =param;
+            this.param = param;
         }
 
         @Override
