@@ -36,18 +36,26 @@ public class OfferPriceNew {
     };
 
     public void test() {
-        Long auctionId = 10234L;
-        for (int i = 0; i < 500; i++) {
-            parallelExecuteExecutor.execute(() -> {
-                Random random = new Random();
-                Integer value = random.nextInt(1000);
-                set.add(value);
+        for (long auctionId = 50000; auctionId < 50020; auctionId++) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            for (int i = 0; i < 500; i++) {
+                final Long auctionIdRef = auctionId;
+                parallelExecuteExecutor.execute(() -> {
+                    Random random = new Random();
+                    Integer value = random.nextInt(1000);
+                    set.add(value);
 
-                offerLimiter.execute(new OfferLimiter.OfferElement<String>(auctionId, value, String.valueOf(value), offerAction));
-            });
+                    offerLimiter.execute(new OfferLimiter.OfferElement<String>(auctionIdRef, value, String.valueOf(value), offerAction));
+                });
+            }
         }
 
         parallelExecuteExecutor.shutdown();
+
         while (true) {
             if (parallelExecuteExecutor.isTerminated()) {
                 List<Integer> treeSet = new ArrayList<>();
@@ -56,6 +64,8 @@ public class OfferPriceNew {
                     return o2.compareTo(o1);
                 });
                 System.out.println(String.format("出价列表=%s", treeSet));
+                System.out.println(String.format("缓存容量=%s", offerLimiter.limiterCache.size()));
+                ;
                 break;
             }
         }

@@ -26,7 +26,7 @@ public final class MethodUtil {
     private static final Object LOCK = new Object();
 
     /**
-     * Parse and resolve the method name, then cache to the map.
+     * Parse and resolve the method name, then limiterCache to the map.
      *
      * @param method method instance
      * @return resolved method name

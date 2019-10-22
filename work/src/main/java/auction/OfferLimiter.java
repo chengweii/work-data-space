@@ -1,11 +1,13 @@
 package auction;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.RateLimiter;
 import lombok.Data;
 import lombok.Getter;
 
 import java.util.Date;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -17,26 +19,33 @@ import java.util.concurrent.TimeUnit;
  */
 public class OfferLimiter<T> {
     /**
-     * 此处限流信息无法清除，仅作思路参考，具体实现可以采用jedis实现
+     * 本地缓存限流器是有限的，业务量比较大的场景还是通过redis实现比较靠谱
      */
-    private ConcurrentHashMap<Long, Limiter<T>> limiterConcurrentHashMap = new ConcurrentHashMap<>();
+    public Cache<Long, Limiter<T>> limiterCache = CacheBuilder.newBuilder()
+            // 设置缓存的最大容量
+            .maximumSize(5)
+            // 设置缓存在写入一分钟后失效
+            .expireAfterWrite(1, TimeUnit.MINUTES)
+            // 设置并发级别为10
+            .concurrencyLevel(10)
+            // 开启缓存统计
+            .recordStats()
+            .build();
 
     public void execute(OfferElement<T> offerElement) {
-        if (!limiterConcurrentHashMap.containsKey(offerElement.getId())) {
-            synchronized (limiterConcurrentHashMap) {
-                if (!limiterConcurrentHashMap.containsKey(offerElement.getId())) {
-                    limiterConcurrentHashMap.put(offerElement.getId(), new Limiter<T>());
-                }
-            }
+        Limiter<T> limiter = null;
+        try {
+            limiter = limiterCache.get(offerElement.getId(),()-> new Limiter<T>());
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
 
-        Limiter<T> limiter = limiterConcurrentHashMap.get(offerElement.getId());
         limiter.getQueue().put(offerElement);
         if (limiter.getRateLimiter().tryAcquire(1, 2, TimeUnit.SECONDS)) {
             try {
                 OfferElement<T> result = limiter.getQueue().take();
                 result.getOfferAction().execute(result.getParam());
-                System.out.println(String.format("当前时间=%s 出价成功=%s", new Date(), result.getParam()));
+                System.out.println(String.format("当前时间=%s 出价成功=%s", new Date(), result));
             } catch (Exception e) {
                 e.printStackTrace();
             }
