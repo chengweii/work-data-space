@@ -7,7 +7,12 @@ import util.DateUtil;
 import util.GsonUtil;
 
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.zip.CRC32;
 
 public class Test {
 	private final static List<Integer> VALID_PROMOTION_TYPE = Lists.newArrayList(1,2);
@@ -20,7 +25,9 @@ static{
 		ResultWrapper<AuctionInfo> resultWrapper = JSON.parseObject(json,ResultWrapper.class);
 		Date dayEnd = new Date(DateUtil.getDateFormat("2019-07-19", DateUtil.DateFormatType.YYYY_MM_DD).getTime() - 1);
 		Method[] ms = Test.class.getMethods();
-		System.out.println(ms[0].getReturnType().equals(Test.class));
+		CRC32 crc32 = new CRC32();
+		crc32.update("记录压缩列表表尾距离起始位置有多少字节".getBytes());
+		System.out.println(crc32.getValue());
 	}
 
 	@FunctionalInterface
