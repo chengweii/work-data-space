@@ -11,10 +11,11 @@ import org.springframework.stereotype.Service;
  * @date 2019/12/31
  */
 @Service
-public class AutowireServiceTest {
+public class AutowireServiceTest implements AutowireServiceTestApi{
     @Autowired
     protected AutowireCapableBeanFactory capableBeanFactory;
 
+    @Override
     public String getName(){
         return "222";
     }
